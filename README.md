@@ -6,7 +6,7 @@ Entity-Component-System (or **ECS** for short) is a method to arrange and modify
 
 In the ECS design, an Entity is simply a unique object that represents, well, an entity inside the program. A Component, parametrized by a type, regroups the data in a contiguous array. A System is simply a function called on each Entity inside a set of Components.
 
-In the current implementation, some important things that can differ from others:
+In the current implementation, some important things can differ from others:
 * An Entity is more complex than a simple id and id reuse might happen.
 * Components are registered at compile-time, not at runtime.
 * To the user, a System is handled like an Entity.
@@ -20,7 +20,7 @@ This library being a header-only library, simply clone this repository and inclu
 
 ## Details
 
-My goal in the implementation of this **ECS** was to reduce the number of indirection between an Entity and its data inside of a Component. The idea in this implementation is that an element of the set that defines where the data is for each entity uniquely identifies said Entity. And thus, an Entity is simply a pointer to this element.
+My goal in my implementation of this **ECS** was to reduce the number of indirections between an Entity and its data inside of a Component. The idea is that an element of the set that defines where the data is for each entity uniquely identifies said entity. And thus, an Entity is simply a pointer to this element.
 
 However, one must garantee that this pointer is never invalidated. The only basic standard structure having this guarantee is `std::array` in which each iterator is valid until the destruction of the array. The manager of this set thus simply handles a vector of unique pointers to array called *Blocks* and gives out available spots. Finally, elements of these *Blocks* are a collection of indices indicating where the Entity's data is stored in each Component. This requires to have a constant a number of Components.
 
